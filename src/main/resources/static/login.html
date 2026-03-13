@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - SkillSwap</title>
+
+<style>
+
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#36d1dc,#5b86e5);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+color:white;
+}
+
+.container{
+background:rgba(255,255,255,0.15);
+padding:30px;
+border-radius:10px;
+width:300px;
+text-align:center;
+}
+
+input{
+width:90%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+background:#00c6ff;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Login</h2>
+
+<input id="email" type="email" placeholder="Email">
+
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p>New user?
+<a href="register.html" style="color:white;">Register</a>
+</p>
+
+</div>
+
+<script>
+
+function login(){
+
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+
+fetch("http://localhost:8080/users/all")
+.then(res => res.json())
+.then(data => {
+
+let user = data.find(u =>
+u.email === email && u.password === password
+);
+
+if(user){
+
+alert("Login Successful");
+
+// user data save pannuvom
+localStorage.setItem("loggedUser", JSON.stringify(user));
+
+window.location.href="dashboard.html";
+
+}else{
+
+alert("Invalid Email or Password");
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>SkillSwap Chat</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f7fa;
+margin:0;
+}
+
+header{
+background:#007bff;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+padding:30px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2 id="chatTitle"></h2>
+
+</header>
+
+<div class="container">
+
+<p>This is your study connection.</p>
+
+<p>Discuss skills, projects and learning topics.</p>
+
+<button onclick="goBack()">Back to Dashboard</button>
+
+</div>
+
+<script>
+
+let name = localStorage.getItem("chatUser");
+
+document.getElementById("chatTitle").innerText =
+"Chat with " + name;
+
+
+function goBack(){
+
+window.location.href="dashboard.html";
+
+}
+
+</script>
+
+</body>
+
+</html>

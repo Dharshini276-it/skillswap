@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register - SkillSwap</title>
+
+<style>
+
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#667eea,#764ba2);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+color:white;
+}
+
+.container{
+background:rgba(255,255,255,0.15);
+padding:30px;
+border-radius:10px;
+width:320px;
+text-align:center;
+}
+
+input{
+width:90%;
+padding:10px;
+margin:10px 0;
+border:none;
+border-radius:5px;
+}
+
+button{
+padding:10px 20px;
+border:none;
+background:#00c6ff;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0072ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Create Account</h2>
+
+<input id="name" placeholder="Name">
+
+<input id="email" placeholder="Email">
+
+<input id="skill" placeholder="Your Skill">
+
+<input id="want" placeholder="Want To Learn">
+
+<input id="password" type="password" placeholder="Password">
+
+<input type="password" id="password" placeholder="Enter Password" required>
+
+<button onclick="register()">Register</button>
+
+<p>Already have account?  
+<a href="login.html" style="color:white;">Login</a>
+</p>
+
+</div>
+
+<script>
+
+function register(){
+
+let data={
+name:document.getElementById("name").value,
+email:document.getElementById("email").value,
+skill:document.getElementById("skill").value,
+wantToLearn:document.getElementById("want").value
+}
+
+fetch("http://localhost:8080/users/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+})
+.then(res=>res.json())
+.then(data=>{
+alert("Registration Successful")
+window.location.href="login.html"
+})
+
+}
+password:document.getElementById("password").value
+
+let user = {
+name: document.getElementById("name").value,
+email: document.getElementById("email").value,
+skill: document.getElementById("skill").value,
+wantToLearn: document.getElementById("want").value,
+password: document.getElementById("password").value
+};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SkillSwap</title>
+</head>
+
+<body>
+
+    <h1>SkillSwap Platform</h1>
+<p>Exchange skills and learn from others</p>
+
+<h2>SkillSwap Register</h2>
+
+<form id="userForm">
+
+Name:<br>
+<input type="text" id="name"><br><br>
+
+Email:<br>
+<input type="email" id="email"><br><br>
+
+Your Skill:<br>
+<input type="text" id="skill"><br><br>
+
+Want To Learn:<br>
+<input type="text" id="wantToLearn"><br><br>
+
+<button type="submit">Register</button>
+
+</form>
+
+<br><br>
+<button onclick="loadUsers()">Show Users</button>
+
+<h3>Find Skill Match</h3>
+
+<input type="text" id="matchSkill" placeholder="Enter skill you want to learn">
+
+<button onclick="findMatch()">Find Match</button>
+
+<div id="matches"></div>
+
+<h3>Registered Users</h3>
+<div id="users"></div>
+
+<h3>Find Perfect Skill Swap</h3>
+
+Your Skill:
+<input type="text" id="yourSkill"><br><br>
+
+Want To Learn:
+<input type="text" id="yourWant"><br><br>
+
+<button onclick="findSwap()">Find Swap</button>
+
+<div id="swapResult"></div>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6f9;
+text-align:center;
+}
+
+h2{
+color:#333;
+}
+
+form{
+background:white;
+padding:20px;
+width:300px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+input{
+width:90%;
+padding:8px;
+margin:5px;
+}
+
+button{
+background:#007bff;
+color:white;
+border:none;
+padding:10px 15px;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+#users p,#matches p,#swapResult p{
+background:white;
+padding:10px;
+width:300px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+</style>
+
+<script>
+
+document.getElementById("userForm").addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const user = {
+name: document.getElementById("name").value,
+email: document.getElementById("email").value,
+skill: document.getElementById("skill").value,
+wantToLearn: document.getElementById("wantToLearn").value
+};
+
+fetch("http://localhost:8080/users/register",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify(user)
+})
+.then(res=>res.json())
+.then(data=>{
+alert("User Registered Successfully!");
+console.log(data);
+});
+
+});
+
+function loadUsers(){
+
+fetch("http://localhost:8080/users/all")
+.then(res=>res.json())
+.then(data=>{
+
+let output="";
+
+data.forEach(user=>{
+output += `
+<p>
+Name: ${user.name} <br>
+Skill: ${user.skill} <br>
+Wants: ${user.wantToLearn}
+</p>
+<hr>
+`;
+});
+
+document.getElementById("users").innerHTML=output;
+
+});
+
+}
+
+function findMatch(){
+
+let skill = document.getElementById("matchSkill").value;
+
+fetch("http://localhost:8080/users/match/" + skill)
+.then(res=>res.json())
+.then(data=>{
+
+let output="";
+
+data.forEach(user=>{
+output += `
+<p>
+Name: ${user.name} <br>
+Skill: ${user.skill} <br>
+Wants: ${user.wantToLearn}
+</p>
+<hr>
+`;
+});
+
+document.getElementById("matches").innerHTML = output;
+
+});
+
+}
+
+function findSwap(){
+
+let skill = document.getElementById("yourSkill").value;
+let want = document.getElementById("yourWant").value;
+
+fetch("http://localhost:8080/users/swap?skill=" + skill + "&want=" + want)
+.then(res => res.json())
+.then(data => {
+
+let output = "";
+
+data.forEach(user=>{
+output += `
+<p>
+Name: ${user.name} <br>
+Skill: ${user.skill} <br>
+Wants: ${user.wantToLearn}
+</p>
+<hr>
+`;
+});
+
+document.getElementById("swapResult").innerHTML = output;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
